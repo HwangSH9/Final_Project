@@ -26,7 +26,11 @@ $(document).ready(function() {
 		​​​​​​}
 	​​​​});
 </script> -->
-<title>실종검색 템플릿</title> 
+<title>실종검색 템플릿</title>
+<meta
+  http-equiv="Content-Security-Policy"
+  content="upgrade-insecure-requests"
+/>
 </head> 
 <body> 
 
@@ -34,8 +38,8 @@ $(document).ready(function() {
 
    request.setCharacterEncoding("UTF-8");
 
-   String esntlId = "10000485";
-   String authKey = "d797cb549d94478e";
+   String esntlId = "10000486";
+   String authKey = "3b1da20c64994256";
    String rowSize = "10";
    String returnURL = "/inquire";
    String nowPage = request.getParameter("nowPage") == null ? "" : (String) request.getParameter("nowPage");

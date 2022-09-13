@@ -49,7 +49,7 @@
             <ul class="menu">
                <li><a href="/user/signup">Sign In</a></li>
                <li><a href="javascrpit:void(0)">My home</a></li>
-               <li><a href="javascrpit:void(0)">Login</a></li>
+               <li><a href="/user/login">Login</a></li>
             </ul>
             <div class="search">
                <input type="text" /> <span class="material-icons">search</span>

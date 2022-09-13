@@ -5,32 +5,28 @@
 <mapper namespace="org.zerock.mapper.MemberMapper">
 
 
-	<resultMap  type="org.zerock.domain.UserVO" id="UserMap" >
-		<id property="USER_CODE" column="USER_CODE"/>
-	<!--  	<result property="USER_CODE" column="USER_CODE" /> -->
-	   	 <result property="ID" column="ID"/>
-	    <result property="PW" column="PW"/>
-	    <result property="EMAIL" column="EMAIL"/>
-	    <result property="USER_IMAGE" column="USER_IMAGE"/>
-	    <result property="NAME" column="NAME"/>
-	    <result property="BIRTH" column="BIRTH" />
-	    <result property="PHONE_NUM" column="PHONE_NUM"/>
-	    <result property="ADDRESS1" column="ADDRESS1"/>
-	    <result property="ADDRESS2" column="ADDRESS2"/>
-	    <result property="ADDRESS3" column="ADDRESS3"/>
-	</resultMap>
+  <resultMap type="org.zerock.domain.MemberVO" id="memberMap">
+    <id property="userid" column="userid"/>
+    <result property="userid" column="userid"/>
+    <result property="userpw" column="userpw"/>
+    <result property="userName" column="username"/>
+    <result property="regDate" column="regdate"/>
+    <result property="updateDate" column="updatedate"/>
+    <collection property="authList" resultMap="authMap">
+    </collection> 
+  </resultMap>
   
   <resultMap type="org.zerock.domain.AuthVO" id="authMap">
     <result property="userid" column="userid"/>
     <result property="auth" column="auth"/>
   </resultMap>
   
-  <select id="read" resultMap="UserMap">
+  <select id="read" resultMap="memberMap">
 SELECT 
-  mem.id, pw, name, enabled, auth
+  mem.userid,  userpw, username, enabled, regdate, updatedate, auth
 FROM 
-  signup_table mem LEFT OUTER JOIN tbl_member_auth auth on mem.id = auth.userid 
-WHERE mem.id = #{id} 
+  tbl_member mem LEFT OUTER JOIN tbl_member_auth auth on mem.userid = auth.userid 
+WHERE mem.userid = #{userid} 
   </select>
 
 </mapper>

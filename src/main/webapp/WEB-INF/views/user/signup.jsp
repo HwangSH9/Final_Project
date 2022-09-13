@@ -452,7 +452,7 @@ button, input, select, textarea {
 </style>
 <body>
     <div id="wrap" class="wrapper">
-        <form method ="post" name="join" id="join" action="/login" >
+        <form method ="post" name="join" id="join" action="/user/signup" >
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <!-- 회원가입 타이틀부분 -->
         <header>
@@ -471,6 +471,7 @@ button, input, select, textarea {
                     <h3 class="list">아이디<span id="idError"></span></h3>
                     <span class="box int_id" ><input type="text" id="ID" class="int check" name = "ID"
                     maxlength="20"></span>
+                    <button class="idChk" type="button" id="idChk" onclick="fn_idChk();" value="N">중복확인</button>
                 </div>
                 <div class="userInput">
         <!-- 비밀번호 입력 -->
@@ -558,5 +559,55 @@ button, input, select, textarea {
     </div>
     </form>
 </div>
+<script type="text/javascript">
+		$(document).ready(function(){
+			// 취소
+			$(".cencle").on("click", function(){
+				location.href = "/";
+			})
+			
+			$("#submit").on("click", function(){
+				if($("#ID").val()==""){
+					alert("아이디를 입력해주세요.");
+					$("#ID").focus();
+					return false;
+				}
+				if($("#PW").val()==""){
+					alert("비밀번호를 입력해주세요.");
+					$("#PW").focus();
+					return false;
+				}
+				if($("#NAME").val()==""){
+					alert("성명을 입력해주세요.");
+					$("#NAME").focus();
+					return false;
+				}
+				var idChkVal = $("#idChk").val();
+				if(idChkVal == "N"){
+					alert("중복확인 버튼을 눌러주세요.");
+				}else if(idChkVal == "Y"){
+					$("#regForm").submit();
+				}
+			});
+		})
+		
+		function fn_idChk(){
+			$.ajax({
+				url : "/idChk",
+				type : "post",
+				dataType : "json",
+				data : {"ID" : $("#ID").val()},
+				success : function(data){
+					if(data == 1){
+						alert("중복된 아이디입니다.");
+					}else if(data == 0){
+						$("#idChk").attr("value", "Y");
+						alert("사용가능한 아이디입니다.");
+					}
+				}
+			})
+		}
+	</script>
 </body>
+
 </html>

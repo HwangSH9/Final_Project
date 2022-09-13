@@ -22,10 +22,30 @@
 
  <insert id="insert">
 		insert into  signUp_table
-		(USERCODE , ID , PW ,NAME,PHONE_NUM)
+		(USERCODE , ID , PW ,EMAIL, NAME, PHONE_NUM,ADDRESS2,ADDRESS3 )
 		values
-		(seq_user.nextval, #{ID}, #{PW} ,#{NAME},#{PHONE_NUM})
+		(seq_user.nextval, #{ID}, #{PW},#{EMAIL} ,#{NAME},#{PHONE_NUM},#{ADDRESS2},#{ADDRESS3})
 	</insert>
  
+ <select id="login">
+ 	select * from  signUp_table where ID = #{ID} AND PW = #{PW}
+ </select>
+ 
+ <select id="viewUser">
+ select ID, PW FROM signup_table
+ 	WHERE ID = #{ID} AND PW = #{PW}
+ </select>
 
+<!-- 패스워드 체크 -->
+	<select id="passChk" resultType="int">
+		SELECT COUNT(*) FROM signup_table
+		WHERE ID = #{ID}
+		  AND PW = #{PW}
+	</select>
+	
+		<!-- 아이디 중복 체크 -->
+	<select id="idChk" resultType="int">
+		SELECT COUNT(*) FROM signup_table
+		WHERE ID = #{ID}
+	</select>
 </mapper>
