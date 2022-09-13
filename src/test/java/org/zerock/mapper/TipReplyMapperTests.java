@@ -1,7 +1,5 @@
 package org.zerock.mapper;
 
-import static org.junit.Assert.fail;
-
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -11,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.Criteria;
-import org.zerock.domain.ReplyVO;
+import org.zerock.domain.TipReplyVO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -19,13 +17,13 @@ import lombok.extern.log4j.Log4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Log4j
-public class ReplyMapperTests {
+public class TipReplyMapperTests {
 
 	// 테스트 전에 아래 번호의 게시물이 존재하는지 반드시 확인하시기 바랍니다.
 	private Long[] bnoArr = {721003L, 721002L, 721001L, 720995L, 720997L};	
 	
 	@Setter(onMethod_ = @Autowired)
-	private ReplyMapper mapper;
+	private TipReplyMapper mapper;
 
 	@Test // testMapper() 메서드를 통해 ReplyMapper 타입의 객체가 정상적으로 사용이 가능한지 확인합니다.
 	public void testMapper() {
@@ -36,7 +34,7 @@ public class ReplyMapperTests {
 	public void testCreate() {
 		// rangeClosed 메서드는 종료값을 포함해서 반환합니다.
 		IntStream.rangeClosed(1, 10).forEach(i -> {
-			ReplyVO vo = new ReplyVO();
+			TipReplyVO vo = new TipReplyVO();
 			
 			// 게시물의 번호
 			vo.setBno(bnoArr[i%5]);
@@ -50,7 +48,7 @@ public class ReplyMapperTests {
 	@Test
 	public void testRead() {
 		Long targetRno = 5L;  // 5번 댓글을 조회 확인함
-		ReplyVO vo = mapper.read(targetRno);
+		TipReplyVO vo = mapper.read(targetRno);
 		
 		log.info(vo);
 	}
@@ -64,7 +62,7 @@ public class ReplyMapperTests {
 	@Test
 	public void testUpdate() {
 		Long targetRno = 10L;  // rno 10번 reply 글을 수정 처리 합니다!
-		ReplyVO vo = mapper.read(targetRno);
+		TipReplyVO vo = mapper.read(targetRno);
 		vo.setReply("Update Reply 댓글 수정 입력 ");
 		int count = mapper.update(vo);
 		
@@ -76,7 +74,7 @@ public class ReplyMapperTests {
 	public void testList() {
 		Criteria cri = new Criteria();
 		// bnoArr[0] = 위에 private Long[] bnoArr의 요소인 721003L을 확인합니다.
-		List<ReplyVO> replies = mapper.getListWithPaging(cri, bnoArr[0]);
+		List<TipReplyVO> replies = mapper.getListWithPaging(cri, bnoArr[0]);
 		replies.forEach(reply -> log.info(reply));
 	}
 	
@@ -86,7 +84,7 @@ public class ReplyMapperTests {
 		
 		Criteria cri = new Criteria(2, 10);
 		// 721003L
-		List<ReplyVO> replies = mapper.getListWithPaging(cri, 721003L);
+		List<TipReplyVO> replies = mapper.getListWithPaging(cri, 721003L);
 		replies.forEach(reply -> log.info(reply));
 	}
 

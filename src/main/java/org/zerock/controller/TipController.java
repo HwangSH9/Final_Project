@@ -1,7 +1,5 @@
 package org.zerock.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerock.domain.Criteria;
-import org.zerock.domain.ReplyPageDTO;
-import org.zerock.domain.ReplyVO;
-import org.zerock.service.ReplyService;
+import org.zerock.domain.TipReplyPageDTO;
+import org.zerock.domain.TipReplyVO;
+import org.zerock.service.TipReplyService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -31,7 +29,7 @@ public class TipController {
 	// @Setter 주입을 이용하거나, 스프링 4.3 버전 이상에서는 위에
 	// @AllArgsConstructor를 이용해서 ReplyService 타입의 객체를
 	// 필요로 하는 생성자를 만들어서 사용합니다.	
-	private ReplyService service;
+	private TipReplyService service;
 	
 	// Page729 아래 1줄 소스 코딩 추가 : ReplyController에서는 댓글 등록이 로그인한 사용자인지 확인하게 합니다. 
 	@PreAuthorize("isAuthenticated()")
@@ -43,7 +41,7 @@ public class TipController {
 	// create() 메서드의 파라미터는 @RequestBody를 적용해서 JSON 데이터를
 	// ReplyVO 타입으로 변환하도록 지정합니다.
 	// 앞서 게시물 번호에 댓글 등록 작업과 테스트 : REST POST 테스트 구현
-	public ResponseEntity<String> create(@RequestBody ReplyVO vo){
+	public ResponseEntity<String> create(@RequestBody TipReplyVO vo){
 		log.info("ReplyVO~ ♥-♥ : " + vo);
 		int insertCount = service.register(vo);
 		log.info("Reply INSERT COUNT~ ＠-＠ : " + insertCount);
@@ -66,7 +64,7 @@ public class TipController {
 	// 즉, 게시물의 번호(bno)는 @PathVariable을 이용해서 파라미터로 처리해 줍니다.
 	// 웹브라우저에 http://localhost:9005/replies/pages/720997/1 를 입력해서
 	// 확인해 봅니다. 이때, 720997은 게시물의 번호(bno) 변수값이고, 1은 페이지(page)의 변수값입니다.
-	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno){
+	public ResponseEntity<TipReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno){
 		// Page435 소스 코딩할 때 아래 구문은 주석 처리함
 		// log.info("getList...... ☆-☆/ : ");		
 		
@@ -90,7 +88,7 @@ public class TipController {
 	@GetMapping(value = "/{rno}", produces = {
 			MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<ReplyVO> get(@PathVariable("rno") Long rno){
+	public ResponseEntity<TipReplyVO> get(@PathVariable("rno") Long rno){
 		log.info("get...처리 확인~ ◎-◎/ : " + rno);
 		return new ResponseEntity<>(service.get(rno), HttpStatus.OK);
 	}
@@ -114,7 +112,7 @@ public class TipController {
 	//                           받도록 수정 처리 되었습니다.
 	// 실행 확인은 브라우저에서는 JSON 데이터를 전송하고, ReplyController에서는 로그를
 	// 통해서 정상적으로 동작하는 확인해 봅니다.
-	public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno){
+	public ResponseEntity<String> remove(@RequestBody TipReplyVO vo, @PathVariable("rno") Long rno){
 		log.info("remove...처리 확인~ ◆-◆/ : " + rno);
 		
 		// Page732 아래 소스 코딩 1줄 추가
@@ -139,7 +137,7 @@ public class TipController {
 	@PreAuthorize("principal.username == #vo.replyer")
 	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value = "/request/{rno}", consumes = "application/json", produces = {
 			MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity<String> modify(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno){
+	public ResponseEntity<String> modify(@RequestBody TipReplyVO vo, @PathVariable("rno") Long rno){
 		vo.setRno(rno);
 		log.info("rno : ▼-▼/ : " + rno);
 		log.info("modify : ＆-＆/ : " + vo);

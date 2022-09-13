@@ -2,26 +2,26 @@ package org.zerock.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.domain.Criteria;
-import org.zerock.domain.MissingReplyPageDTO;
-import org.zerock.domain.MissingReplyVO;
-import org.zerock.domain.NoticeReplyPageDTO;
-import org.zerock.domain.TipReplyPageDTO;
-import org.zerock.mapper.MissingReplyMapper;
+import org.zerock.domain.ReplyPageDTO;
+import org.zerock.domain.ReplyVO;
 import org.zerock.mapper.NoticeMapper;
+import org.zerock.mapper.ReplyMapper;
 
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
-public class MissingReplyServiceImpl implements MissingReplyService {
+public class ReplyServiceImpl implements ReplyService {
 	
     @Setter(onMethod_ = @Autowired)
-	private MissingReplyMapper mapper;
+	private ReplyMapper mapper;
     
     // Page484 다음 2줄 소스 추가 코딩해줌.
     @Setter(onMethod_ = @Autowired)
@@ -31,7 +31,7 @@ public class MissingReplyServiceImpl implements MissingReplyService {
     // @Transactional의 처리를 해줍니다.
     @Transactional
 	@Override
-	public int register(MissingReplyVO vo) {
+	public int register(ReplyVO vo) {
 		log.info("register.... register 처리!" + vo);
 		// Page485 다음 1줄 소스 추가 코딩해줌.
 		boardMapper.updateReplyCnt(vo.getBno(), 1);
@@ -40,13 +40,13 @@ public class MissingReplyServiceImpl implements MissingReplyService {
 	}
 
 	@Override
-	public MissingReplyVO get(Long rno) {
+	public ReplyVO get(Long rno) {
 		log.info("get.... get 처리!" + rno);
 		return mapper.read(rno);
 	}
 
 	@Override
-	public int modify(MissingReplyVO vo) {
+	public int modify(ReplyVO vo) {
 		log.info("modify.... modify 처리!" + vo);
 		return mapper.update(vo);
 	}
@@ -59,24 +59,24 @@ public class MissingReplyServiceImpl implements MissingReplyService {
 		log.info("remove.... remove 처리!" + rno);
 		
 		// Page485 다음 2줄 소스 추가 코딩해줌.
-		MissingReplyVO vo = mapper.read(rno);		
+		ReplyVO vo = mapper.read(rno);		
 		boardMapper.updateReplyCnt(vo.getBno(), -1);
 		
 		return mapper.delete(rno);
 	}
 
 	@Override
-	public List<MissingReplyVO> getList(Criteria cri, Long bno) {
+	public List<ReplyVO> getList(Criteria cri, Long bno) {
 		log.info("get Reply List of a Board~! " + bno);
 		return mapper.getListWithPaging(cri, bno);
 	}
 
 	@Override
-	public MissingReplyPageDTO getListPage(Criteria cri, Long bno) {
-		// TODO Auto-generated method stub
-		return null;
+	public ReplyPageDTO getListPage(Criteria cri, Long bno) {
+		return new ReplyPageDTO(mapper.getCountByBno(bno), mapper.getListWithPaging(cri, bno));
 	}
-
+	
+	
 	
 }
 
