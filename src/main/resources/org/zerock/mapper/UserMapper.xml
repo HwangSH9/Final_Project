@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.UserMapper">
+
+
+	<resultMap  type="org.zerock.domain.UserVO" id="UserMap" >
+		<id property="USER_CODE" column="USER_CODE"/>
+	<!--  	<result property="USER_CODE" column="USER_CODE" /> -->
+	   	 <result property="ID" column="ID"/>
+	    <result property="PW" column="PW"/>
+	    <result property="EMAIL" column="EMAIL"/>
+	    <result property="USER_IMAGE" column="USER_IMAGE"/>
+	    <result property="NAME" column="NAME"/>
+	    <result property="BIRTH" column="BIRTH" />
+	    <result property="PHONE_NUM" column="PHONE_NUM"/>
+	    <result property="ADDRESS1" column="ADDRESS1"/>
+	    <result property="ADDRESS2" column="ADDRESS2"/>
+	    <result property="ADDRESS3" column="ADDRESS3"/>
+	</resultMap>
+
+ <insert id="insert">
+		insert into  signUp_table
+		(USERCODE , ID , PW ,NAME,PHONE_NUM)
+		values
+		(seq_user.nextval, #{ID}, #{PW} ,#{NAME},#{PHONE_NUM})
+	</insert>
+ 
+
+</mapper>
